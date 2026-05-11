@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Admin/auth/login";
 import Dashboard from "./pages/Admin/dashboard/dashboard";
+import AddJamu from "./pages/Admin/add_jamu";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = localStorage.getItem("token_jamu");
@@ -35,6 +36,15 @@ function App() {
                 <ProtectedRoute>
                   {/* 👇 PERBAIKAN 3: Panggil komponennya pakai huruf D besar */}
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/admin/add-jamu"
+              element={
+                <ProtectedRoute>
+                  <AddJamu />
                 </ProtectedRoute>
               }
             />
