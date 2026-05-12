@@ -7,6 +7,7 @@ class Kabupaten(db.Model):
 
     id_kabupaten = db.Column(db.Integer, primary_key=True, autoincrement=True)
     
+    produsen_list = db.relationship('produsen',backref='kabupaten_relasi',lazy=True)
     nama_kabupaten = db.Column(db.String(100), nullable=False)
 
     def to_dict(self):
