@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class lokasi_pemasaran(db.Model): 
+class LokasiPemasaran(db.Model): 
     __tablename__ = "lokasi_pemasaran"
 
     id_lokasi_pemasaran = db.Column(db.Integer, primary_key=True, autoincrement=True)

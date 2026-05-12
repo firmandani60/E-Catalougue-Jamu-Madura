@@ -1,17 +1,18 @@
 from flask import Blueprint, jsonify, request
-# Import Class Model (Saran: Di models pakai PascalCase 'LokasiPemasaran' biar makin pro)
-from models.lokasi_pemasaran_models import db, lokasi_pemasaran
+from models.lokasi_pemasaran_models import db, LokasiPemasaran
 from flask_jwt_extended import jwt_required
 
 lokasi_pemasaran_bp = Blueprint('lokasi_pemasaran', __name__)
 
-# --- READ ---
+# --- READ (TAMPILKAN SEMUA) ---
 @lokasi_pemasaran_bp.route('/lokasi_pemasaran', methods=['GET'])
 @jwt_required()
 def get_lokasi_pemasaran():
     try:
-        data_lokasi_pemasaran = lokasi_pemasaran.query.all()
-        hasil_json = [item.to_dict() for item in data_lokasi_pemasaran]
+        # FIX: Panggil class LokasiPemasaran (L dan P besar)
+        data_lokasi = LokasiPemasaran.query.all()
+        # Pakai 'item' biar nggak nabrak nama class
+        hasil_json = [item.to_dict() for item in data_lokasi]
 
         return jsonify({
             "status": "success",
@@ -21,7 +22,7 @@ def get_lokasi_pemasaran():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# --- INSERT ---
+# --- INSERT (TAMBAH DATA) ---
 @lokasi_pemasaran_bp.route('/lokasi_pemasaran', methods=['POST'])
 @jwt_required()
 def tambah_lokasi_pemasaran():
@@ -35,9 +36,9 @@ def tambah_lokasi_pemasaran():
                 "message": "Nama lokasi pemasaran tidak boleh kosong!"
             }), 400
 
-        # Penamaan variabel baru sudah oke
-        lokasi_pemasaran_baru = lokasi_pemasaran(nama_lokasi_pemasaran=input_nama)
-        db.session.add(lokasi_pemasaran_baru)
+        # FIX: Panggil class LokasiPemasaran
+        lokasi_baru = LokasiPemasaran(nama_lokasi_pemasaran=input_nama)
+        db.session.add(lokasi_baru)
         db.session.commit()
 
         return jsonify({
@@ -47,12 +48,13 @@ def tambah_lokasi_pemasaran():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# --- UPDATE ---
+# --- UPDATE (EDIT DATA) ---
 @lokasi_pemasaran_bp.route('/lokasi_pemasaran/<int:id_edit>', methods=['PUT'])
 @jwt_required()
 def edit_lokasi_pemasaran(id_edit):
     try:
-        target = lokasi_pemasaran.query.get(id_edit)
+        # FIX: Panggil class LokasiPemasaran
+        target = LokasiPemasaran.query.get(id_edit)
 
         if not target:
             return jsonify({
@@ -79,12 +81,13 @@ def edit_lokasi_pemasaran(id_edit):
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# --- DELETE ---
+# --- DELETE (HAPUS DATA) ---
 @lokasi_pemasaran_bp.route('/lokasi_pemasaran/<int:id_hapus>', methods=['DELETE'])
 @jwt_required()
 def hapus_lokasi_pemasaran(id_hapus):
     try: 
-        target = lokasi_pemasaran.query.get(id_hapus)
+        # FIX: Panggil class LokasiPemasaran
+        target = LokasiPemasaran.query.get(id_hapus)
 
         if not target:
             return jsonify({
@@ -95,6 +98,9 @@ def hapus_lokasi_pemasaran(id_hapus):
         db.session.delete(target)
         db.session.commit()
 
-        return jsonify({"status": "success", "message": "Data lokasi pemasaran berhasil dihapus"}), 200
+        return jsonify({
+            "status": "success", 
+            "message": "Data lokasi pemasaran berhasil dihapus"
+        }), 200
     except Exception as e: 
         return jsonify({"status": "error", "message": str(e)}), 500
