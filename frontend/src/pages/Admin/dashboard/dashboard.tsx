@@ -77,6 +77,16 @@ export default function Dashboard() {
               <span className="text-[15px] tracking-wide">Dashboard</span>
             </button>
           </div>
+
+          {/* Log Out Button */}
+          <div className="mt-auto px-4 pb-6">
+            <button 
+              onClick={handleLogout}
+              className="w-full bg-[#CC0000] hover:bg-[#FF0404] text-white font-bold text-[15px] rounded-lg py-2.5 px-4 flex items-center justify-center shadow-md transition-colors"
+            >
+              Log out
+            </button>
+          </div>
         </aside>
 
         {/* Main Content */}
@@ -97,7 +107,10 @@ export default function Dashboard() {
             
             {/* Action Bar */}
             <div className="flex justify-end mb-6">
-              <button className="bg-[#018A01] hover:bg-[#007000] text-white font-bold py-1.5 px-4 rounded-full flex items-center gap-1 shadow-md transition-transform hover:scale-105">
+              <button 
+                onClick={() => navigate('/admin/add-jamu')}
+                className="bg-[#018A01] hover:bg-[#007000] text-white font-bold py-1.5 px-4 rounded-full flex items-center gap-1 shadow-md transition-transform hover:scale-105"
+              >
                 <span className="text-xl leading-none font-normal">+</span>
                 <span className="text-sm">Tambah item</span>
               </button>
@@ -112,7 +125,7 @@ export default function Dashboard() {
                     className="bg-[#FCE6CF] rounded-xl pt-6 pb-4 px-4 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col gap-5 border border-[#F0D5BB]"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full bg-[#6A7677] flex items-center justify-center text-white text-3xl font-light shadow-inner shrink-0">
+                      <div className="w-16 h-16 rounded-full bg-[#6A7677] flex items-center justify-center text-white text-3xl font-light shadow-[-4px_4px_6px_rgba(214,130,39,0.5)] shrink-0">
                         +
                       </div>
                       <div className="font-semibold text-[14px] text-center flex-1 leading-snug font-serif text-black">
